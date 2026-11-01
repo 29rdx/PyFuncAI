@@ -15,7 +15,7 @@ provider response handling, and concurrent generation. See the
 
 ## Installation
 
-Requires Python **3.10 or newer**. CI tests Python 3.10?3.14 on Linux, plus Windows
+Requires Python **3.10 or newer**. CI tests Python 3.10 through 3.14 on Linux, plus Windows
 and macOS configurations.
 
 ```bash
@@ -201,7 +201,7 @@ Cached code is revalidated before execution. Invalid cached source is evicted an
 raises `ValidationError`; the next build can regenerate, or use `build(force=True)`.
 A failed forced refresh preserves the previously working in-memory callable.
 
-Cache keys must contain 1?128 ASCII letters, digits, underscores, or hyphens.
+Cache keys must contain 1 to 128 ASCII letters, digits, underscores, or hyphens.
 Generated keys are SHA-256 hashes. Paths and links resolving outside the cache root
 are rejected. Cache commands skip entries with unsafe names or external links.
 

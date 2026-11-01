@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.8 ? 2026-10-31
+## 0.1.8 - 2026-10-31
 
 ### Fixed
 
@@ -21,7 +21,7 @@
 - Optional bounded provider retries with exponential backoff, disabled by default.
 - Regression and provider protocol tests, expanded live Qwen/Ollama checks, and an
   85% coverage requirement.
-- Shared CI/release checks across Python 3.10?3.14, Linux, Windows, and macOS; test
+- Shared CI/release checks across Python 3.10 through 3.14, Linux, Windows, and macOS; test
   installed wheel and source distributions outside the checkout before publication.
 - API, migration, concurrency, execution-policy, troubleshooting, contribution,
   security-reporting, and release documentation.
