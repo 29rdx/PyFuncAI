@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from collections.abc import Sequence
 from pathlib import Path
 import runpy
@@ -71,6 +72,11 @@ def _build_parser() -> argparse.ArgumentParser:
         "list",
         help="List cache entries stored on disk.",
     )
+    cache_list_parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Print cache metadata as a JSON array instead of plain text.",
+    )
     cache_list_parser.set_defaults(handler=_handle_cache_list)
 
     cache_remove_parser = cache_subparsers.add_parser(
@@ -133,10 +139,25 @@ def _handle_cache_path(args: argparse.Namespace) -> int:
 
 
 def _handle_cache_list(args: argparse.Namespace) -> int:
-    """List cache entries in a human-readable format."""
+    """List cache metadata as plain text or JSON."""
 
     cache = DiskCache(cache_dir=args.cache_dir)
     entries = cache.entries()
+    if args.json:
+        print(
+            json.dumps(
+                [
+                    {
+                        "cache_key": entry.cache_key,
+                        "function_name": entry.function_name,
+                        "mode": entry.mode,
+                        "created_at": entry.created_at,
+                    }
+                    for entry in entries
+                ]
+            )
+        )
+        return 0
     if not entries:
         print("Cache is empty.")
         return 0
