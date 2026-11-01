@@ -189,6 +189,18 @@ pyfuncai cache clear
 
 You can point cache commands at a different directory with `--cache-dir`.
 
+For scripts, request machine-readable metadata:
+
+```bash
+pyfuncai cache list --json
+pyfuncai cache --cache-dir .pyfuncai-cache list --json
+```
+
+The output is a JSON array with exactly `cache_key`, `function_name`, `mode`, and
+`created_at` for each entry, in the same newest-first order as the plain listing.
+An empty cache prints `[]`. Prompts, generated source, and provider configuration
+are omitted. Without `--json`, the existing plain-text output is unchanged.
+
 ## Safety
 
 PyFuncAI validates generated code before execution. The current implementation includes:
