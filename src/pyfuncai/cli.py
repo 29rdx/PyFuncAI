@@ -9,7 +9,8 @@ import runpy
 import sys
 
 from pyfuncai.cache import DiskCache
-from pyfuncai.core import _clear_registered_functions, _registered_functions
+from pyfuncai.core import _collect_functions
+from pyfuncai.exceptions import PyFuncAIError
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -17,7 +18,11 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     parser = _build_parser()
     args = parser.parse_args(list(argv) if argv is not None else None)
-    return args.handler(args)
+    try:
+        return args.handler(args)
+    except (PyFuncAIError, OSError) as error:
+        print(f"pyfuncai: {error}", file=sys.stderr)
+        return 1
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -93,13 +98,12 @@ def _handle_build(args: argparse.Namespace) -> int:
     if not script_path.exists():
         raise SystemExit(f"Target script does not exist: {script_path}")
 
-    _clear_registered_functions()
-
     original_sys_path = list(sys.path)
     try:
         sys.path.insert(0, str(script_path.parent))
-        runpy.run_path(str(script_path), run_name="__main__")
-        functions = _unique_functions(_registered_functions())
+        with _collect_functions() as collected:
+            runpy.run_path(str(script_path), run_name="__main__")
+        functions = _unique_functions(collected)
         if not functions:
             print(f"No PyFuncAI functions were created by {script_path.name}.")
             return 0
@@ -115,7 +119,6 @@ def _handle_build(args: argparse.Namespace) -> int:
         return 0
     finally:
         sys.path[:] = original_sys_path
-        _clear_registered_functions()
 
 
 def _handle_cache_path(args: argparse.Namespace) -> int:
