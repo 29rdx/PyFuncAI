@@ -167,6 +167,12 @@ The default cache location is OS-specific. You can override it globally with `co
 PyFuncAI ships with a small command-line interface for prebuilding functions and
 inspecting cached source.
 
+Print the installed package version:
+
+```bash
+pyfuncai --version
+```
+
 Prebuild every prompt-defined function created by a script:
 
 ```bash

@@ -8,6 +8,7 @@ from pathlib import Path
 import runpy
 import sys
 
+from pyfuncai import __version__
 from pyfuncai.cache import DiskCache
 from pyfuncai.core import _clear_registered_functions, _registered_functions
 
@@ -26,6 +27,11 @@ def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="pyfuncai",
         description="Build prompt-defined functions and inspect the local cache.",
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"pyfuncai {__version__}",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
