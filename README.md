@@ -9,7 +9,7 @@ Define Python functions with prompts and generate their implementations using a 
 Ollama model, OpenAI, or Gemini. Generation can happen on first use or immediately.
 Validated source can be cached across runs. There are no runtime package dependencies.
 
-Version **0.1.8** fixes signature evaluation, cache correctness, import restrictions,
+Version **0.1.9** fixes annotated-tag releases, signature evaluation, cache correctness, import restrictions,
 provider response handling, and concurrent generation. See the
 [changelog](https://github.com/AaronCreor/PyFuncAI/blob/main/CHANGELOG.md).
 
@@ -182,7 +182,7 @@ Cache keys include the prompt, signature, normalized name, provider identity
 (provider/model/endpoint), mode, allowed modules, system prompt, temperature, output
 token limit, and generation-template version. Credentials and retry settings are
 not part of cache identity. Changing any generation input creates a different entry.
-Version 0.1.8 uses new keys; older entries remain on disk but are not automatically reused.
+Version 0.1.9 uses new keys; older entries remain on disk but are not automatically reused.
 Model tags can change upstream; use `fn.build(force=True)` after replacing a model
 under the same tag.
 
@@ -272,6 +272,7 @@ Use a virtual environment, then install the checkout:
 python -m pip install -e ".[dev]"
 python -m black --check src tests scripts example.py
 python -m pytest --cov=pyfuncai --cov-report=term-missing
+python scripts/check_release_refs.py
 python -m build
 python -m twine check --strict dist/*
 python scripts/check_distribution.py dist/*
@@ -284,7 +285,7 @@ runs the offline suite outside the checkout. On PowerShell, pass artifact paths
 explicitly:
 
 ```powershell
-python scripts/check_distribution.py dist/pyfuncai-0.1.8-py3-none-any.whl dist/pyfuncai-0.1.8.tar.gz
+python scripts/check_distribution.py dist/pyfuncai-0.1.9-py3-none-any.whl dist/pyfuncai-0.1.9.tar.gz
 ```
 
 Run optional live Ollama tests:
@@ -324,24 +325,24 @@ Stable release procedure:
 1. Update `pyproject.toml` version, README, and `CHANGELOG.md` together.
 2. Open a pull request into `main`; wait for all CI checks to pass and review the diff.
 3. Merge, fetch the resulting `main`, then create an annotated matching tag.
-4. Push the tag to run `release.yml`. For this release the tag is `v0.1.8`.
+4. Push the tag to run `release.yml`. For this release the tag is `v0.1.9`.
 5. Verify the GitHub release, PyPI version/description, and a clean PyPI installation.
 
 ```bash
 git switch main
 git pull --ff-only
-git tag -a v0.1.8 -m "Release PyFuncAI 0.1.8"
-git push origin v0.1.8
+git tag -a v0.1.9 -m "Release PyFuncAI 0.1.9"
+git push origin v0.1.9
 ```
 
 Do not reuse an existing release tag or package version. `release.yml` verifies the
-tag's version and ancestry on `main`, runs the complete test matrix on the exact
+tag's version and ancestry on `main` using a separate local verification ref, runs the complete test matrix on the exact
 commit, and tests installed artifacts. The same verified artifacts are published
 through PyPI Trusted Publishing, then attached to a GitHub release only after PyPI
 publication succeeds. The GitHub `pypi` environment and PyPI trusted publisher must
 continue to authorize `AaronCreor/PyFuncAI`, workflow `release.yml`.
 
-`prerelease.yml` applies the same checks to `preview` tags such as `v0.1.9rc1`, then
+`prerelease.yml` applies the same checks to `preview` tags such as `v0.1.10rc1`, then
 creates a GitHub prerelease. Preview artifacts are not published to PyPI. CI and both
 release workflows share `.github/workflows/checks.yml`.
 

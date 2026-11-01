@@ -1,6 +1,6 @@
 # Security policy
 
-Security fixes target the latest stable PyPI release. Upgrade to 0.1.8 or newer for
+Security fixes target the latest stable PyPI release. Upgrade to 0.1.9 or newer for
 the signature parsing and cache-policy fixes described in CHANGELOG.md.
 
 Generated source is untrusted. AST checks and restricted builtins/imports are useful

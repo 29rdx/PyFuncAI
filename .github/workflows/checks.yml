@@ -60,6 +60,8 @@ jobs:
         with:
           python-version: "3.11"
       - run: python -m pip install -e ".[dev]"
+      - name: Check annotated and lightweight release tag protocols
+        run: python scripts/check_release_refs.py
       - run: python -m build
       - run: python -m twine check --strict dist/*
       - name: Test wheel and source distribution outside checkout
