@@ -60,6 +60,7 @@ include = [
   "/src",
   "/tests",
   "/README.md",
+  "/CHANGELOG.md",
   "/LICENSE",
   "/example.py",
   "/.github/workflows",
