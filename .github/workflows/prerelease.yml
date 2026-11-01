@@ -40,6 +40,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: preview
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -49,8 +50,8 @@ jobs:
         env:
           RELEASE_TAG: ${{ steps.resolve.outputs.tag }}
         run: |
-          git fetch origin preview "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"
-          target_sha="$(git rev-parse "$RELEASE_TAG^{commit}")"
+          git fetch --no-tags origin "preview:refs/remotes/origin/preview" "refs/tags/$RELEASE_TAG:refs/pyfuncai/release"
+          target_sha="$(git rev-parse "refs/pyfuncai/release^{commit}")"
           git merge-base --is-ancestor "$target_sha" origin/preview
           git checkout --detach "$target_sha"
           package_version="$(python -c 'import tomllib; print(tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')"

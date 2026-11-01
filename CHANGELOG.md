@@ -1,6 +1,16 @@
 # Changelog
 
-## 0.1.8 - 2026-10-31
+## 0.1.9 - 2026-10-31
+
+- Ship all audited runtime fixes and documentation prepared for 0.1.8.
+- Verify annotated release tags through a separate local ref so checkout cannot
+  cause a tag-clobber rejection. Preserve the existing v0.1.8 tag; it was not published to PyPI.
+- Add integration checks that execute the actual stable/prerelease verification
+  steps against temporary Git repositories with annotated and lightweight tags,
+  including rejection of tags outside the required branch.
+- Update README/PyPI metadata, version examples, and security guidance to 0.1.9.
+
+## 0.1.8 - 2026-10-31 (unpublished tag)
 
 ### Fixed
 

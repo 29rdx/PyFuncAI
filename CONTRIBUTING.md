@@ -17,6 +17,7 @@ Before submitting a pull request:
 ```bash
 python -m black --check src tests scripts example.py
 python -m pytest --cov=pyfuncai --cov-report=term-missing
+python scripts/check_release_refs.py
 python -m build
 python -m twine check --strict dist/*
 python scripts/check_distribution.py dist/*
